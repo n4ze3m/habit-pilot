@@ -71,13 +71,13 @@ export const habitRouter = createTRPCRouter({
 			userId: string;
 		}[] = habits.map((habit) => {
 			const today = dayjs().format("YYYY-MM-DD");
-
 			const contributions = habit.contributions.reduce((acc, contribution) => {
-				const date = dayjs(contribution.createdAt).format("YYYY-MM-DD");
+				const date = contribution.createdAt.toISOString().split("T")[0];
 				// @ts-ignore
-				acc[date] = 1;
+				acc[date] = Math.floor(contribution.createdAt / 1000);
 				return acc;
 			}, {} as { [x: string]: number });
+
 
 			const isTodayDone = contributions[today] ? true : false;
 
