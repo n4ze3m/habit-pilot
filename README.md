@@ -1,28 +1,53 @@
-# Create T3 App
+# Habit Pilot
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Habit Pilot is a habit tracker app that helps you build good habits and break bad ones. It's a simple app with Github-like commit charts and a simple interface.
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- Simple interface
+- Github-like commit charts
+- Daily reminders to track your habits
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Self-hosting
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Habit Pilot is open source and you can host it yourself. 
 
-## Learn More
+Followings are the steps to self-host Habit Pilot:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- Create a new Firebase project and enable Google Sign-In
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+- Get a PostgreSQL database and migrate the database schema using the following command:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```bash
 
-## How do I deploy this?
+npx prisma migrate dev --name init
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+```
+
+- copy the `.env.example` file to `.env` and fill in the values
+
+
+- Create a new Courier account and create a new template with the following attributes:
+
+  - subject
+  - message
+  - btnTxt
+  - btnLink
+
+- Copy paste the `.env.example` file to `.env` and fill in the values
+
+- Install the dependencies and run the app
+
+```bash
+npm install
+npm run dev
+```
+
+## Contributing
+
+Contributions are welcome! Please open an issue or a pull request.
+
+## License
+
+MIT
