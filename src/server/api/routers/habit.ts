@@ -90,7 +90,6 @@ export const habitRouter = createTRPCRouter({
 
 		return result;
 	}),
-
 	checkHabit: publicProcedure
 		.input(z.object({ id: z.string() }))
 		.mutation(async ({ input, ctx }) => {
@@ -223,6 +222,12 @@ export const habitRouter = createTRPCRouter({
 					message: "Habit not found",
 				});
 			}
+
+			await ctx.prisma.habitContributions.deleteMany({
+				where: {
+					habitId: input.id,
+				}
+			});
 
 			await ctx.prisma.habit.delete({
 				where: {

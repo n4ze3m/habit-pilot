@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import React from "react";
 import Calendar from "react-github-contribution-calendar";
 import { api } from "../../../utils/api";
+import { UpdateHabitModal } from "./UpdateHabitModal";
 
 type Props = {
   isTodayDone: boolean;
@@ -27,10 +28,26 @@ export const HabitList = (props: Props) => {
 
   const client = api.useContext();
 
+  const [modalData, setModalData] = React.useState<{
+    name: string;
+    showReminder: boolean;
+    reminderDay: string;
+    reminderTime: string;
+    id: string;
+  }>({
+    name: "",
+    showReminder: false,
+    reminderDay: "",
+    reminderTime: "",
+    id: "",
+  });
+
+  const [openModal, setOpenModal] = React.useState(false);
+
   const { mutateAsync: checkHabit, isLoading } = api.habit.checkHabit
     .useMutation({
       onSuccess: async () => {
-        await client.habit.getAllHabits.refetch();
+        await client.invalidate();
       },
     });
 
@@ -74,7 +91,7 @@ export const HabitList = (props: Props) => {
                 onChange={async () => {
                   await checkHabit({ id: props.id });
                 }}
-                defaultChecked={props.isTodayDone}
+                checked={props.isTodayDone}
                 color="teal"
                 size="lg"
               />
@@ -106,7 +123,20 @@ export const HabitList = (props: Props) => {
                 </button>
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item>Edit</Menu.Item>
+                <Menu.Item
+                  onClick={() => {
+                    setModalData({
+                      name: props.name,
+                      showReminder: props.showRemainder,
+                      reminderDay: props.day,
+                      reminderTime: props.time,
+                      id: props.id,
+                    });
+                    setOpenModal(true);
+                  }}
+                >
+                  Edit
+                </Menu.Item>
                 <Menu.Item
                   color={"red"}
                   onClick={openDeleteModal}
@@ -128,6 +158,12 @@ export const HabitList = (props: Props) => {
           panelColors={panelColors}
         />
       </div>
+
+      <UpdateHabitModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        data={modalData}
+      />
     </li>
   );
 };
