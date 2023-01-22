@@ -1,6 +1,7 @@
-import { Button, Container, Group } from "@mantine/core";
+import { Button, Container, Group, Skeleton } from "@mantine/core";
 import { useRouter } from "next/router";
 import React from "react";
+import { api } from "../../../utils/api";
 import { HabitList } from "./HabitList";
 
 //@ts-ignore
@@ -10,6 +11,7 @@ export function classNames(...classes) {
 
 export default function DashboardBody() {
   const router = useRouter();
+  const { data, status } = api.habit.getAllHabits.useQuery();
   return (
     <Container>
       <Group position="right">
@@ -18,16 +20,28 @@ export default function DashboardBody() {
         </Button>
       </Group>
 
-      <ul
-        role="list"
-        className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2"
-      >
-        <HabitList />
-        <HabitList />
-        <HabitList />
-        <HabitList />
-        <HabitList />
-      </ul>
+      {status === "success"
+        ? (
+          <ul
+            role="list"
+            className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2"
+          >
+            {data?.map((habit) => <HabitList key={habit.id} {...habit} />)}
+          </ul>
+        )
+        : null}
+
+      {status === "loading"
+        ? (
+          <ul className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2">
+            {/* skeleton loading  */}
+
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i.toString()} height={200} />
+            ))}
+          </ul>
+        )
+        : null}
     </Container>
   );
 }
