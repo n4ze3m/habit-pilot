@@ -146,7 +146,7 @@ export const NewBody = () => {
                   format="12"
                   defaultValue={new Date()}
                   onChange={(value) => {
-                    form.setFieldValue("reminderTime", value.toTimeString());
+                    form.setFieldValue("reminderTime", value.toISOString());
                   }}
                 />
               </Group>

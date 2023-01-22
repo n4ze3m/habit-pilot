@@ -20,6 +20,7 @@ specifiers:
   '@trpc/next': ^10.8.1
   '@trpc/react-query': ^10.8.1
   '@trpc/server': ^10.8.1
+  '@trycourier/courier': ^4.1.0
   '@types/node': ^18.11.18
   '@types/prettier': ^2.7.2
   '@types/react': ^18.0.26
@@ -66,6 +67,7 @@ dependencies:
   '@trpc/next': 10.9.0_foflabvvxsdbuujlqclbknlgre
   '@trpc/react-query': 10.9.0_qw4miir7nnxijwjta54q3esyeq
   '@trpc/server': 10.9.0
+  '@trycourier/courier': 4.1.0
   dayjs: 1.11.7
   firebase: 9.16.0
   next: 13.0.2_biqbaboplfbrettd7655fr4n2y
@@ -1415,6 +1417,14 @@ packages:
     resolution: {integrity: sha512-5psyZgbvy29pJND32hwkWTMbv6s86IbsPOeDopsgNF0VegZT6Dsijmb7Ub/TDhuJVQVq5u4u5briMXi3SxmBkw==}
     dev: false
 
+  /@trycourier/courier/4.1.0:
+    resolution: {integrity: sha512-RLssIXIwuGNxAYKuap95mD38M5HHyaxPyalSwr/yrrqlHOWofDH15yFHB4AnYj5na+7z+22ruRmwl7LYwpFZZw==}
+    dependencies:
+      cross-fetch: 3.1.5
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@types/cookie/0.3.3:
     resolution: {integrity: sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow==}
     dev: false
@@ -1930,6 +1940,14 @@ packages:
       parse-json: 5.2.0
       path-type: 4.0.0
       yaml: 1.10.2
+    dev: false
+
+  /cross-fetch/3.1.5:
+    resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}
+    dependencies:
+      node-fetch: 2.6.7
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /cross-spawn/7.0.3:
