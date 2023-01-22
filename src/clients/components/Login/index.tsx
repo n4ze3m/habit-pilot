@@ -2,19 +2,33 @@ import { Button } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useMutation } from "@tanstack/react-query";
 import { FirebaseError } from "firebase/app";
+import { UserCredential } from "firebase/auth";
 import { useRouter } from "next/router";
 import React from "react";
 import { useAuth } from "../../context/Auth";
 import { GoogleIcon } from "../Common/GoogleIcon";
-
+import { api } from "../../../utils/api";
 export default function LoginBody() {
   const auth = useAuth();
   const router = useRouter();
+  const { mutateAsync: createUser } = api.user.createUser.useMutation();
   const { mutate: googleLogin, isLoading: googleLoginLoading } = useMutation(
     async () => {
-      return await auth.googleLogin({
+      const user = await auth.googleLogin({
         popup: true,
       });
+
+      if (user.user) {
+        await createUser({
+          id: user.user.uid,
+          email: user.user.email || "",
+          name: user.user.displayName || "",
+        });
+      } else {
+        throw new Error("No user found");
+      }
+
+      return user;
     },
     {
       // rome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -54,7 +68,7 @@ export default function LoginBody() {
               variant="default"
               size="md"
               color="gray"
-              loading={googleLoginLoading} 
+              loading={googleLoginLoading}
             >
               Continue with Google
             </Button>
