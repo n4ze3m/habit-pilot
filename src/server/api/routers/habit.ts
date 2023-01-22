@@ -146,7 +146,90 @@ export const habitRouter = createTRPCRouter({
 				});
 			}
 
+			return "Habit checked";
+		}),
 
-            return "Habit checked";
+	updateHabit: publicProcedure
+		.input(
+			z.object({
+				id: z.string(),
+				name: z.string(),
+
+				showReminder: z.boolean(),
+				reminderDay: z.string(),
+				reminderTime: z.string(),
+			}),
+		)
+		.mutation(async ({ input, ctx }) => {
+			const userId = ctx.userId as string;
+
+			if (!userId) {
+				throw new TRPCError({
+					code: "UNAUTHORIZED",
+					message: "You must be logged in to update a habit",
+				});
+			}
+
+			const habit = await ctx.prisma.habit.findFirst({
+				where: {
+					id: input.id,
+					userId: userId,
+				},
+			});
+
+			if (!habit) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Habit not found",
+				});
+			}
+
+			await ctx.prisma.habit.update({
+				where: {
+					id: input.id,
+				},
+				data: {
+					name: input.name,
+					showRemainder: input.showReminder,
+					time: input.reminderTime,
+					day: input.reminderDay,
+				},
+			});
+
+			return "Habit updated";
+		}),
+	deleteHabit: publicProcedure
+		.input(z.object({ id: z.string() }))
+		.mutation(async ({ input, ctx }) => {
+			const userId = ctx.userId as string;
+
+			if (!userId) {
+				throw new TRPCError({
+					code: "UNAUTHORIZED",
+					message: "You must be logged in to delete a habit",
+				});
+			}
+
+			const habit = await ctx.prisma.habit.findFirst({
+				where: {
+					id: input.id,
+					userId: userId,
+				},
+			});
+
+			if (!habit) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Habit not found",
+				});
+			}
+
+			await ctx.prisma.habit.delete({
+				where: {
+					id: input.id,
+				},
+			});
+
+			return "Habit deleted";
 		}),
 });

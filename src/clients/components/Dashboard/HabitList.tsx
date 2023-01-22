@@ -1,4 +1,5 @@
-import { Checkbox, Loader } from "@mantine/core";
+import { Checkbox, Loader, Menu } from "@mantine/core";
+import { openConfirmModal } from "@mantine/modals";
 import { IconDots } from "@tabler/icons";
 import dayjs from "dayjs";
 import React from "react";
@@ -30,6 +31,27 @@ export const HabitList = (props: Props) => {
     .useMutation({
       onSuccess: async () => {
         await client.habit.getAllHabits.refetch();
+      },
+    });
+
+  const { mutateAsync: deleteHabit, isLoading: isDeleting } = api.habit
+    .deleteHabit.useMutation({});
+
+  const openDeleteModal = () =>
+    openConfirmModal({
+      title: "Delete Habit",
+      centered: true,
+      children: (
+        <p className="text-gray-700">
+          Are you sure you want to delete this Habit? This action cannot be
+          undone.
+        </p>
+      ),
+      labels: { confirm: "Delete Habit", cancel: "No don't delete it" },
+      confirmProps: { color: "red", loading: isDeleting },
+      onConfirm: async () => {
+        await deleteHabit({ id: props.id });
+        await client.invalidate();
       },
     });
 
@@ -71,13 +93,28 @@ export const HabitList = (props: Props) => {
             </span>
           </div>
           <div className="flex-shrink-0 pr-2">
-            <button
-              type="button"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            <Menu
+              withArrow
             >
-              <span className="sr-only">Open options</span>
-              <IconDots className="h-5 w-5" aria-hidden="true" />
-            </button>
+              <Menu.Target>
+                <button
+                  type="button"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-transparent text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <span className="sr-only">Open options</span>
+                  <IconDots className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item>Edit</Menu.Item>
+                <Menu.Item
+                  color={"red"}
+                  onClick={openDeleteModal}
+                >
+                  Delete
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </div>
         </div>
       </div>

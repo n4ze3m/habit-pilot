@@ -12,6 +12,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { createEmotionCache, MantineProvider } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import { AuthProvider } from "../clients/context/Auth";
+import { ModalsProvider } from '@mantine/modals';
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -54,8 +55,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         >
           <NotificationsProvider />
           {/* <div className="bg-slate-50 h-screen"> */}
-
+          <ModalsProvider>
           <Component {...pageProps} />
+          </ModalsProvider>
           {/* </div> */}
         </MantineProvider>
       </AuthProvider>
