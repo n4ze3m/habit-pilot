@@ -45,7 +45,6 @@ export const useAuth = () => {
   return context;
 };
 
-
 export const AuthProvider = ({
   children,
 }: {
@@ -55,7 +54,7 @@ export const AuthProvider = ({
   const [loading, setLoading] = React.useState(true);
   const router = useRouter();
 
-  const noAuthRoutes = ["/", "/auth",]
+  const noAuthRoutes = ["/", "/auth"];
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -86,6 +85,7 @@ export const AuthProvider = ({
   };
 
   const logout = async () => {
+    router.push("/");
     setUser(null);
     await signOut(auth);
   };

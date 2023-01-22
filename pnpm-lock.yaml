@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@emotion/react': ^11.10.5
   '@emotion/server': ^11.10.0
+  '@headlessui/react': ^1.7.7
   '@mantine/core': ^5.10.1
   '@mantine/form': ^5.10.1
   '@mantine/hooks': ^5.10.1
@@ -43,6 +44,7 @@ specifiers:
 dependencies:
   '@emotion/react': 11.10.5_kzbn2opkn2327fwg5yzwzya5o4
   '@emotion/server': 11.10.0
+  '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
   '@mantine/core': 5.10.1_vmfc4eynrtlwqan3hg7ts62b2m
   '@mantine/form': 5.10.1_react@18.2.0
   '@mantine/hooks': 5.10.1_react@18.2.0
@@ -787,6 +789,18 @@ packages:
       long: 4.0.0
       protobufjs: 7.1.2
       yargs: 16.2.0
+    dev: false
+
+  /@headlessui/react/1.7.7_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-BqDOd/tB9u2tA0T3Z0fn18ktw+KbVwMnkxxsGPIH2hzssrQhKB5n/6StZOyvLYP/FsYtvuXfi9I0YowKPv2c1w==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.8:
