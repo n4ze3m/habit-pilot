@@ -14,6 +14,7 @@ import {
 } from "firebase/auth";
 import React from "react";
 import { useRouter } from "next/router";
+import { Loading } from "../components/Common/Loading";
 
 interface AuthContextType {
   user: User | null;
@@ -132,7 +133,7 @@ export const AuthProvider = ({
         ? (
           children
         )
-        : <div>Loading...</div>}
+        : <Loading />}
     </AuthContext.Provider>
   );
 };
