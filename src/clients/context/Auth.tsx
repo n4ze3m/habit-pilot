@@ -45,6 +45,11 @@ export const useAuth = () => {
   return context;
 };
 
+export const useAuthHome = () => {
+  const context = React.useContext(AuthContext);
+  return context;
+};
+
 export const AuthProvider = ({
   children,
 }: {
