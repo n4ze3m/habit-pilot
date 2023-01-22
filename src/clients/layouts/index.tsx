@@ -22,12 +22,12 @@ export const DashboardLayout = ({ children }: {
                   <div className="flex flex-shrink-0 items-center">
                     <img
                       className="block h-8 w-auto lg:hidden"
-                      src="./logo.svg"
+                      src="/logo.svg"
                       alt="Habit Pilot"
                     />
                     <img
                       className="hidden h-8 w-auto lg:block"
-                      src="./logo.svg"
+                      src="/logo.svg"
                       alt="Habit Pilot"
                     />
                   </div>

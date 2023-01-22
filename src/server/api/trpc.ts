@@ -19,7 +19,7 @@
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 import { prisma } from "../db";
-
+import { Cookie } from "next-cookie";
 type CreateContextOptions = Record<string, never>;
 
 /**
@@ -32,9 +32,9 @@ type CreateContextOptions = Record<string, never>;
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
 const createInnerTRPCContext = (_opts: CreateContextOptions) => {
-  return {
-    prisma,
-  };
+	return {
+		prisma,
+	};
 };
 
 /**
@@ -43,7 +43,14 @@ const createInnerTRPCContext = (_opts: CreateContextOptions) => {
  * @link https://trpc.io/docs/context
  */
 export const createTRPCContext = (_opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({});
+	const cookie = Cookie.fromApiRoute(_opts.req, _opts.res);
+	const userId = cookie.get("userId");
+
+	return {
+		...createInnerTRPCContext({}),
+		userId,
+		cookie,
+	};
 };
 
 /**
@@ -56,10 +63,10 @@ import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  errorFormatter({ shape }) {
-    return shape;
-  },
+	transformer: superjson,
+	errorFormatter({ shape }) {
+		return shape;
+	},
 });
 
 /**

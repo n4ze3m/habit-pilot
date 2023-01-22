@@ -1,17 +1,18 @@
 import Head from "next/head";
 import { DashboardLayout } from "../../clients/layouts";
 import DashboardBody from "../../clients/components/Dashboard";
+import { NewBody } from "../../clients/components/New";
 
 
-export default function Dashboard() {
+export default function DashboardNew() {
   return (
     <DashboardLayout>
       <Head>
         <title>
-          Dashboard / Habit Pilot
+          New / Habit Pilot
         </title>
       </Head>
-      <DashboardBody />
+      <NewBody />
     </DashboardLayout>
   );
 }
