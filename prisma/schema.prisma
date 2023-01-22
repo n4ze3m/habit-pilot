@@ -21,14 +21,16 @@ model User {
 }
 
 model Habit {
-    id                 String               @id @default(uuid())
-    name               String
-    description        String
+    id            String               @id @default(uuid())
+    name          String
     contributions HabitContributions[]
-    createdAt          DateTime             @default(now())
-    updatedAt          DateTime             @updatedAt
-    user               User                 @relation(fields: [userId], references: [id])
-    userId             String
+    showRemainder Boolean              @default(false)
+    day           String               @default("everyday")
+    time          String               @default("00:00")
+    createdAt     DateTime             @default(now())
+    updatedAt     DateTime             @updatedAt
+    user          User                 @relation(fields: [userId], references: [id])
+    userId        String
 }
 
 model HabitContributions {

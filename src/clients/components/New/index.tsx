@@ -14,6 +14,9 @@ import React from "react";
 import { useForm } from "@mantine/form";
 import { Transition } from "@headlessui/react";
 import { TimeInput } from "@mantine/dates";
+import { api } from "../../../utils/api";
+import { useRouter } from "next/router";
+import { showNotification } from "@mantine/notifications";
 export const NewBody = () => {
   const form = useForm({
     initialValues: {
@@ -44,6 +47,30 @@ export const NewBody = () => {
     { label: "Sunday", value: "sunday" },
   ];
 
+  const router = useRouter();
+
+  const {
+    mutate: createHabit,
+    isLoading,
+  } = api.habit.createHabit.useMutation({
+    onSuccess: () => {
+      showNotification({
+        title: "Habit Created",
+        message: "Yeah! You created a new habit. 🎉",
+        color: "green"
+      });
+
+      router.push("/dashboard");
+    },
+    onError: (e) => {
+      showNotification({
+        title: "Error",
+        message: e.message,
+        color: "red",
+      });
+    },
+  });
+
   return (
     <Container>
       <Paper radius="md" p="xl" withBorder={true}>
@@ -52,7 +79,9 @@ export const NewBody = () => {
         </h3>
 
         <div className="mt-5">
-          <form>
+          <form
+            onSubmit={form.onSubmit((values) => createHabit(values))}
+          >
             <Stack my="md">
               <TextInput
                 required={true}
@@ -116,10 +145,19 @@ export const NewBody = () => {
                   pmLabel="pm"
                   format="12"
                   defaultValue={new Date()}
+                  onChange={(value) => {
+                    form.setFieldValue("reminderTime", value.toTimeString());
+                  }}
                 />
               </Group>
             </Transition>
-            <Button fullWidth={true} type="submit" color="teal" mt="md">
+            <Button
+              loading={isLoading}
+              fullWidth={true}
+              type="submit"
+              color="teal"
+              mt="md"
+            >
               Create Habit
             </Button>
           </form>

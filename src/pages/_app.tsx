@@ -53,7 +53,10 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           }}
         >
           <NotificationsProvider />
+          {/* <div className="bg-slate-50 h-screen"> */}
+
           <Component {...pageProps} />
+          {/* </div> */}
         </MantineProvider>
       </AuthProvider>
     </>

@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { useAuth } from "../context/Auth";
 import { IconAlignJustified, IconBell, IconX } from "@tabler/icons";
+import { useRouter } from "next/router";
 
 // @ts-ignore
 function classNames(...classes) {
@@ -11,8 +12,9 @@ export const DashboardLayout = ({ children }: {
   children: React.ReactNode;
 }) => {
   const { user, logout } = useAuth();
+  const router = useRouter();
   return (
-    <div className="h-screen bg-gray-50">
+    <div className="h-full">
       <Disclosure as="nav" className="border-b border-gray-200 bg-white">
         {({ open }) => (
           <>
@@ -20,15 +22,23 @@ export const DashboardLayout = ({ children }: {
               <div className="flex h-16 justify-between">
                 <div className="flex">
                   <div className="flex flex-shrink-0 items-center">
+                    {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
                     <img
-                      className="block h-8 w-auto lg:hidden"
+                      className="block h-8 w-auto lg:hidden cursor-pointer"
                       src="/logo.svg"
                       alt="Habit Pilot"
+                      onClick={() => {
+                        router.push("/dashboard");
+                      }}
                     />
-                    <img
-                      className="hidden h-8 w-auto lg:block"
+                    {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+<img
+                      className="hidden h-8 w-auto lg:block cursor-pointer"
                       src="/logo.svg"
                       alt="Habit Pilot"
+                      onClick={() => {
+                        router.push("/dashboard");
+                      }}
                     />
                   </div>
                 </div>
