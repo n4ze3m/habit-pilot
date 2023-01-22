@@ -2,6 +2,7 @@ import { Button, Container, Group, Skeleton } from "@mantine/core";
 import { useRouter } from "next/router";
 import React from "react";
 import { api } from "../../../utils/api";
+import { Empty } from "./Empty";
 import { HabitList } from "./HabitList";
 
 //@ts-ignore
@@ -22,12 +23,18 @@ export default function DashboardBody() {
 
       {status === "success"
         ? (
+        <>
           <ul
             role="list"
             className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-4 lg:grid-cols-2"
           >
             {data?.map((habit) => <HabitList key={habit.id} {...habit} />)}
           </ul>
+
+          {
+            data?.length === 0 && <Empty />
+          }
+        </>
         )
         : null}
 
