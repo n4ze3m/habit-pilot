@@ -229,6 +229,12 @@ export const habitRouter = createTRPCRouter({
 				}
 			});
 
+			await ctx.prisma.notification.deleteMany({
+				where: {
+					habitId: input.id,
+				}
+			});
+
 			await ctx.prisma.habit.delete({
 				where: {
 					id: input.id,
