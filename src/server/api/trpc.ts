@@ -46,6 +46,7 @@ export const createTRPCContext = (_opts: CreateNextContextOptions) => {
 	const cookie = Cookie.fromApiRoute(_opts.req, _opts.res);
 	const userId = cookie.get("userId");
 
+
 	return {
 		...createInnerTRPCContext({}),
 		userId,

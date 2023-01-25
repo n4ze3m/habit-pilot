@@ -24,4 +24,8 @@ export const userRouter = createTRPCRouter({
 			ctx.cookie.set("userId", input.id);
 			return "Success";
 		}),
+
+	isLoggedIn: publicProcedure.mutation(async ({ ctx }) => {
+		return !!ctx.userId;
+	}),
 });

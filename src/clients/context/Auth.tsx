@@ -15,6 +15,8 @@ import {
 import React from "react";
 import { useRouter } from "next/router";
 import { Loading } from "../components/Common/Loading";
+import { api } from "../../utils/api";
+import Head from "next/head";
 
 interface AuthContextType {
   user: User | null;
@@ -62,11 +64,21 @@ export const AuthProvider = ({
 
   const noAuthRoutes = ["/", "/auth"];
 
+  const { mutateAsync: checkUser } = api.user.isLoggedIn.useMutation();
+
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUser(user);
-        setLoading(false);
+        const data = await checkUser();
+        if (!data) {
+          await signOut(auth);
+          setUser(null);
+          setLoading(false);
+          return;
+        } else {
+          setUser(user);
+          setLoading(false);
+        }
       } else {
         setUser(null);
         setLoading(false);
@@ -133,7 +145,14 @@ export const AuthProvider = ({
         ? (
           children
         )
-        : <Loading />}
+        : (
+          <>
+            <Head>
+              <title>Loading...</title>
+            </Head>
+            <Loading />
+          </>
+        )}
     </AuthContext.Provider>
   );
 };
