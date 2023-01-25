@@ -21,7 +21,11 @@ export const userRouter = createTRPCRouter({
 					},
 				});
 			}
-			ctx.cookie.set("userId", input.id);
+			ctx.cookie.set("userId", input.id, {
+				maxAge: 7 * 24 * 60 * 60,
+				path: "/",
+				secure: process.env.NODE_ENV === "production",
+			});
 			return "Success";
 		}),
 
