@@ -64,21 +64,21 @@ export const AuthProvider = ({
 
   const noAuthRoutes = ["/", "/auth"];
 
-  const { mutateAsync: checkUser } = api.user.isLoggedIn.useMutation();
+  // const { mutateAsync: checkUser } = api.user.isLoggedIn.useMutation();
 
   React.useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const data = await checkUser();
-        if (!data) {
-          await signOut(auth);
-          setUser(null);
-          setLoading(false);
-          return;
-        } else {
+        // const data = await checkUser();
+        // if (!data) {
+        //   await signOut(auth);
+        //   setUser(null);
+        //   setLoading(false);
+        //   return;
+        // } else {
           setUser(user);
           setLoading(false);
-        }
+        // }
       } else {
         setUser(null);
         setLoading(false);
